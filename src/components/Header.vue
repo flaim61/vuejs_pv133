@@ -7,6 +7,9 @@
             <RouterLink to='/about' >
                 О нас
             </RouterLink>
+            <RouterLink to='/news' >
+                Новости
+            </RouterLink>
         </nav>
     </header>
 </template>

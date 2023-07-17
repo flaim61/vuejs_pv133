@@ -1,5 +1,5 @@
 <template>
-  Главная страница1231
+  <img src="@/assets/img/avatar.jpeg" alt="">
 </template>
 
 <script>
