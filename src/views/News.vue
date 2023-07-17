@@ -1,7 +1,7 @@
 <template>
     <section class="posts">
         <div v-for="(post, index) in this.posts" v-if='this.posts.length'>
-            <Post :deletePost="deletePost(post.id)" :title="post.title" :text="post.text"/>
+            <Post @delete="this.deletePost(post.id)"  :title="post.title" :text="post.text"/>
         </div>
         <div v-else>
             <EmptySection text="Еще нет ни одного поста!"/>
@@ -78,7 +78,7 @@
                 }
             },
             deletePost(id){
-                console.log(id)
+                this.posts = this.posts.filter(post => post.id != id);
             }
         },
         watch: {

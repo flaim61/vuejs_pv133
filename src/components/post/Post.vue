@@ -4,7 +4,7 @@
             <h3>
                 {{ this.title }} 
             </h3>
-            <button type="button" class="close" @click='this.deletePost'>
+            <button type="button" class="close" @click='this.delete'>
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -20,13 +20,17 @@
         props: [
             'title', 
             'text',
-            'deletePost'
         ],
         components: {
 
         },
         data(){
             
+        },
+        methods: {
+            delete(){
+                this.$emit('delete')
+            }
         }
     }
 </script>
