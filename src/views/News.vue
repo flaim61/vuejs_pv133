@@ -1,7 +1,7 @@
 <template>
     <section class="posts">
-        <div v-for="(post, index) in this.posts" v-if='this.posts.length'>
-            <Post @delete="this.deletePost(post.id)"  :title="post.title" :text="post.text"/>
+        <div v-for="(post, index) in this.posts" v-if="this.posts.length">
+            <Post @delete="this.deletePost(post.id)"  :title="post.title" :text="post.body"/>
         </div>
         <div v-else>
             <EmptySection text="Еще нет ни одного поста!"/>
@@ -33,12 +33,16 @@
 <script>
     import Post from "@/components/post/Post.vue"
     import EmptySection from "@/components/EmptySection.vue";
+    import { getPosts, getUsers } from "@/services/index.js"
 
     export default {
         name: "News",
         components: {
             Post,
             EmptySection
+        },
+        async created(){
+            this.posts = await this.getPosts();
         },
         data(){
             return {
@@ -48,18 +52,19 @@
                     title: false,
                     text: false,
                 },
-                posts: [
-                    { id: 1, title: "Пост 1", text: "Какое-то тестовый текст 1"},
-                    { id: 2, title: "Пост 2", text: "Какое-то тестовый текст 2"},
-                    { id: 3, title: "Пост 3", text: "Какое-то тестовый текст 3"},
-                    { id: 4, title: "Пост 4", text: "Какое-то тестовый текст 4"},
-                    { id: 5, title: "Пост 5", text: "Какое-то тестовый текст 5"},
-                    { id: 6, title: "Пост 6", text: "Какое-то тестовый текст 6"},
-                    { id: 7, title: "Пост 7", text: "Какое-то тестовый текст 7"},
-                ],
+                posts: [],
             }
         },
         methods: {
+            async getPosts(){
+                try {
+                    const response = await getPosts();
+                    console.log(response.data)
+                    return response.data;
+                } catch (error) {
+                    return [];
+                }
+            },
             createPost(){
                 if(this.text && this.title){
                     this.posts.push({
