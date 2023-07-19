@@ -10,5 +10,9 @@ export const getPosts = async () => {
 }
 
 export const getUsers = async () => {
-    return await $api.get('/users')
+    return await $api.get('/users');
+}
+
+export const getPost = async (id) => {
+    return await $api.get('/posts/'+id);
 }

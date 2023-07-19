@@ -1,7 +1,13 @@
 <template>
     <section class="posts">
         <div v-for="(post, index) in this.posts" v-if="this.posts.length">
-            <Post @delete="this.deletePost(post.id)"  :title="post.title" :text="post.body"/>
+            <Post
+                @delete="this.deletePost(post.id)"
+                :id="post.id"
+                :title="post.title"
+                :text="post.body"
+                :user="post.user"
+            />
         </div>
         <div v-else>
             <EmptySection text="Еще нет ни одного поста!"/>
@@ -43,6 +49,8 @@
         },
         async created(){
             this.posts = await this.getPosts();
+            this.users = await this.getUsers();
+            this.mappingUsersWithPosts();
         },
         data(){
             return {
@@ -59,17 +67,29 @@
             async getPosts(){
                 try {
                     const response = await getPosts();
-                    console.log(response.data)
                     return response.data;
                 } catch (error) {
                     return [];
                 }
             },
+            async getUsers(){
+                try {
+                    const response = await getUsers();
+                    return response.data;
+                } catch (error) {
+                    return [];
+                }
+            },
+            mappingUsersWithPosts(){
+                this.posts.forEach(post => {
+                    post.user = this.users.find(u => u.id == post.userId);
+                });
+            },
             createPost(){
                 if(this.text && this.title){
                     this.posts.push({
                         title: this.title,
-                        text: this.text
+                        body: this.text
                     });
 
                     this.title = "";

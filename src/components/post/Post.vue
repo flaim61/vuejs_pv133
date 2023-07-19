@@ -2,15 +2,21 @@
     <div class="post">
         <div class="d-flex justify-content-between">
             <h3>
-                {{ this.title }} 
+                {{ this.title }}
             </h3>
             <button type="button" class="close" @click='this.delete'>
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <div v-if="this.user">
+            <a :href="'mailto:' + this.user.email">{{ this.user.email }}</a>
+        </div>
         <p>
             {{ this.text }}
         </p>
+        <div class="d-flex justify-content-end">
+            <span class="btn btn-primary" @click='this.$router.push("/news/"+this.id)'>Читать дальше</span>
+        </div>
     </div>
 </template>
 
@@ -18,14 +24,16 @@
     export default {
         name: "Post",
         props: [
-            'title', 
+            'id',
+            'title',
             'text',
+            'user'
         ],
         components: {
 
         },
         data(){
-            
+
         },
         methods: {
             delete(){
